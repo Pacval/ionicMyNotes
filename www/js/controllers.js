@@ -1,16 +1,15 @@
 angular.module('app.controllers', [])
 
-.controller('allNotesCtrl', function ($scope, $state) {
+.controller('allNotesCtrl', function ($scope, $state, TabNotes) {
 
-    console.log("Hello");
+        $scope.notes = {
+            tabNotes: TabNotes.all()
+        };
 
-    $scope.notes = {
-        tabNotes: [{
-            titre: "note1",
-            comment: "comment1"
-        }]
-    };
+        TabNotes.add("note1", "comment");
 
-    console.log($scope.notes);
+    })
+    .controller('noteCtrl', function ($scope, $state, $stateParams) {
+        $scope.note = $stateParams.noteId;
 
-})
+    });
