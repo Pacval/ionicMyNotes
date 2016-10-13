@@ -26,9 +26,10 @@ angular.module('app', ['ionic', 'app.controllers'])
         $stateProvider
             .state('allNotes', {
                 url: '/allNotes',
-                templateUrl: 'templates/allNotes.html'
+                templateUrl: 'templates/allNotes.html',
+                controller: 'allNotesCtrl'
             })
-            
+
 
         $urlRouterProvider.otherwise('/allNotes');
-})
+    })

@@ -3,5 +3,7 @@
 </ion-header-bar>
 
 <ion-content>
-    <div>Hello World</div>
+    <div ng-repeat="note in notes.tabNotes">
+        Titre : {{note.titre}} commentaire : {{note.comment}}
+    </div>
 </ion-content>
