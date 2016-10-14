@@ -1,3 +1,11 @@
+//Structure note :
+//    id            (auto)
+//    titre
+//    comment
+//    importance
+//    dateButoir    (can be null)
+//    done          (auto)
+
 angular.module('app.services', [])
 
 .factory('TabNotes', function () {
@@ -9,11 +17,13 @@ angular.module('app.services', [])
         all: function () {
             return tabNotes;
         },
-        add: function (titre, comment) {
+        add: function (titre, comment, importance, dateButoir) {
             tabNotes.push({
                 id: id,
                 titre: titre,
                 comment: comment,
+                importance: importance,
+                dateButoir: dateButoir,
                 done: false
             });
             id = id + 1;

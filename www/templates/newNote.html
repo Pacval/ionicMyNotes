@@ -1,5 +1,5 @@
 <ion-header-bar class="bar-calm">
-    <a class="button icon ion-chevron-left" href="/#/allNotes">Retour</a>
+    <a class="button icon ion-chevron-left" ng-click="quitter()">Retour</a>
     <h1 class="title">Nouvelle note</h1>
 </ion-header-bar>
 
@@ -48,9 +48,9 @@
         </label>
 
 
-        
-        
-<!--        BOUTON DE VALIDATION        -->
+
+
+        <!--        BOUTON DE VALIDATION        -->
         <div style="text-align: center; margin-top: 20px;">
             <button class="button button-calm" ng-click="createNote()">
                 <i class="icon ion-checkmark-round"></i>

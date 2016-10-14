@@ -13,7 +13,7 @@ angular.module('app.controllers', [])
         }
 
     })
-    .controller('noteCtrl', function ($scope, $state, $stateParams, TabNotes, $ionicActionSheet) {
+    .controller('noteCtrl', function ($scope, $state, $stateParams, TabNotes, $ionicActionSheet, $ionicPopup) {
         $scope.note = TabNotes.get($stateParams.noteId);
 
         $scope.noteOptions = function (note) {
@@ -32,9 +32,18 @@ angular.module('app.controllers', [])
 
                 destructiveText: 'Supprimer',
                 destructiveButtonClicked: function () {
-                    TabNotes.remove(note);
-
-                    $state.go('allNotes');
+                    $ionicPopup
+                        .confirm({
+                            title: 'Supprimer cette note',
+                            template: 'Voulez vous supprimer cette note ?'
+                        })
+                        .then(function (res) {
+                            if (res) {
+                                TabNotes.remove(note);
+                                $state.go('allNotes');
+                                return true;
+                            }
+                        });
                     return true;
                 },
 
@@ -43,8 +52,41 @@ angular.module('app.controllers', [])
             })
         };
     })
-    .controller('newNoteCtrl', function ($scope, TabNotes) {
+    .controller('newNoteCtrl', function ($scope, TabNotes, $ionicPopup, $state) {
+
         $scope.form = {};
 
+        $scope.form.titre = "";
+        $scope.form.comment = "";
+        $scope.form.importance = "Normale";
 
+        $scope.quitter = function () {
+            $ionicPopup
+                .confirm({
+                    title: 'Quitter ?',
+                    template: 'Vos données seront perdues'
+                })
+                .then(function (res) {
+                    if (res) {
+                        $state.go('allNotes');
+                    }
+                });
+        }
+
+        $scope.createNote = function () {
+            if ($scope.form.titre !== "" &&
+                $scope.form.comment !== "" &&
+                $scope.form.importance !== "") {
+
+                TabNotes.add($scope.form.titre, $scope.form.comment, $scope.form.importance);
+
+                $state.go('allNotes');
+
+            } else {
+                $ionicPopup.alert({
+                    title: 'Erreur',
+                    template: 'Veuillez remplir tous les champs'
+                });
+            }
+        };
     });
