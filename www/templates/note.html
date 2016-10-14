@@ -1,10 +1,32 @@
 <ion-header-bar class="bar-calm">
     <a class="button icon ion-chevron-left" href="/#/allNotes">Retour</a>
-    <h1 class="title">{{note.titre}}</h1>
+    <h1 class="title">Détails</h1>
+    <button class="button icon ion-gear-a" ng-click="noteOptions(note)"></button>
 </ion-header-bar>
 
 <ion-content>
 
+    <div class="row">
+        <div class="col">
+            <h2 style="text-align: center;">{{note.titre}}</h2>
+        </div>
+    </div>
+
+    <ul class="list">
+        <li class="item item-toggle">
+            Terminé
+            <label class="toggle toggle-calm">
+                <input type="checkbox" ng-model="note.done">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </li>
+    </ul>
+
+    <div style="margin: 10px;">
+        <p>{{note.comment}}</p>
+    </div>
 
 
 </ion-content>

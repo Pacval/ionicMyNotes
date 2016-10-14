@@ -1,11 +1,14 @@
 <ion-header-bar class="bar-calm">
     <h1 class="title">Mes notes</h1>
+    <a class="button icon ion-plus-round" href="/#/newNote"></a>
 </ion-header-bar>
 
 <ion-content>
     <ion-list ng-repeat="note in notes.tabNotes">
-        <ion-item href="#/note/{{noteId}}">
-            <h2>{{note.titre}}</h2>
+        <ion-item href="#/note/{{note.id}}">
+            <h2 ng-style="{ 'textDecoration' : note.done ? 'line-through' : 'none',
+                          'color' : note.done ? 'grey' : 'black' }">{{note.titre}}</h2>
+            <i class="icon ion-chevron-right"></i>
         </ion-item>
 
     </ion-list>

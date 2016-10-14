@@ -1,0 +1,64 @@
+<ion-header-bar class="bar-calm">
+    <a class="button icon ion-chevron-left" href="/#/allNotes">Retour</a>
+    <h1 class="title">Nouvelle note</h1>
+</ion-header-bar>
+
+<ion-content>
+
+    <div class="list">
+        <label class="item item-input">
+            <span class="input-label">Titre</span>
+            <input type="text" ng-model="form.titre">
+        </label>
+
+        <label class="item item-textarea">
+            <textarea placeholder="Commentaires" ng-model="form.comment"></textarea>
+        </label>
+
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Importance
+            </div>
+            <select ng-model="form.importance">
+                <option>Faible</option>
+                <option selected>Normale</option>
+                <option>Elevée</option>
+            </select>
+        </label>
+
+
+        <!--        PLUS D OPTIONS      -->
+        <div class="item item-divider">
+            Plus d'options
+        </div>
+
+        <!--        OPTION : délai      -->
+        <label class="item item-toggle">
+            Ajouter une date butoir
+            <label class="toggle toggle-calm">
+                <input type="checkbox" ng-model="form.delai">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </label>
+        <label class="item item-input" ng-if="form.delai">
+            <span class="input-label">Date butoir</span>
+            <input ng-model="form.dateButoir" type="date">
+        </label>
+
+
+        
+        
+<!--        BOUTON DE VALIDATION        -->
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="button button-calm" ng-click="createNote()">
+                <i class="icon ion-checkmark-round"></i>
+                Créer note
+            </button>
+        </div>
+
+
+    </div>
+
+</ion-content>

@@ -13,7 +13,8 @@ angular.module('app.services', [])
             tabNotes.push({
                 id: id,
                 titre: titre,
-                comment: comment
+                comment: comment,
+                done: false
             });
             id = id + 1;
         },
