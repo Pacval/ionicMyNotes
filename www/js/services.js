@@ -40,4 +40,31 @@ angular.module('app.services', [])
             return null;
         }
     };
+})
+.factory('Importances', function(){
+    var importances = [
+    {value: 'Faible', couleur: '#00ff00'}, //vert
+    {value: 'Normale', couleur: '#ffff00'}, //jaune
+    {value: 'Forte', couleur: '#ff0000'} //rouge
+    ];
+
+    var neutral = 1; // neutral = Normale
+
+    return {
+        all: function(){
+            return importances;
+        },
+        getNeutral: function(){
+            return importances[neutral];
+        }
+        getCouleur: function(value){
+            for (var i = 0; i < importances.length; i++) {
+                if (importances[i].value === value) {
+                    return tabNotes[i];
+                }
+            }
+            return null;
+        }
+    };
+
 });
