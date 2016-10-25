@@ -20,7 +20,7 @@
                 Importance
             </div>
             <select ng-model="form.importance">
-                <option ng-repeat="i in enums.importances">{{i}}</option>
+                <option ng-repeat="i in enums.importances">{{i.value}}</option>
             </select>
             {{form.importance}}
         </label>

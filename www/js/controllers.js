@@ -7,9 +7,9 @@ angular.module('app.controllers', [])
             tabNotes: TabNotes.all()
         };
 
-        TabNotes.add("note1", "comment 1", {value: 'Normale', couleur: '#ffff00'}, null);
-        TabNotes.add("note2", "comment 2", {value: 'Normale', couleur: '#ffff00'}, null);
-        TabNotes.add("note3", "comment 3", {value: 'Normale', couleur: '#ffff00'}, null);
+        TabNotes.add("note1", "comment 1", 'Normale', null);
+        TabNotes.add("note2", "comment 2", 'Faible', null);
+        TabNotes.add("note3", "comment 3", 'Forte', null);
     }
 
 })
@@ -61,7 +61,7 @@ angular.module('app.controllers', [])
 
     $scope.form.titre = "";
     $scope.form.comment = "";
-    $scope.form.importance = Importances.getNeutral();
+    $scope.form.importance = Importances.getNeutral().value;
 
     $scope.quitter = function () {
         $ionicPopup

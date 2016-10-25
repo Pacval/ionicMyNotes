@@ -3,12 +3,13 @@
 //    titre
 //    comment
 //    importance
+//    couleur
 //    dateButoir    (can be null)
 //    done          (auto)
 
 angular.module('app.services', [])
 
-.factory('TabNotes', function () {
+.factory('TabNotes', function (Importances) {
     var tabNotes = [];
 
     var id = 1;
@@ -23,6 +24,7 @@ angular.module('app.services', [])
                 titre: titre,
                 comment: comment,
                 importance: importance,
+                couleur: Importances.getCouleur(importance),
                 dateButoir: dateButoir,
                 done: false
             });
@@ -44,7 +46,7 @@ angular.module('app.services', [])
 .factory('Importances', function(){
     var importances = [
     {value: 'Faible', couleur: '#00ff00'}, //vert
-    {value: 'Normale', couleur: '#ffff00'}, //jaune
+    {value: 'Normale', couleur: '#ffae00'}, //jaune
     {value: 'Forte', couleur: '#ff0000'} //rouge
     ];
 
@@ -56,11 +58,11 @@ angular.module('app.services', [])
         },
         getNeutral: function(){
             return importances[neutral];
-        }
+        },
         getCouleur: function(value){
             for (var i = 0; i < importances.length; i++) {
                 if (importances[i].value === value) {
-                    return tabNotes[i];
+                    return importances[i].couleur;
                 }
             }
             return null;
