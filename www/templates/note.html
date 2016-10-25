@@ -12,8 +12,9 @@
         </div>
     </div>
 
-    <ul class="list">
-        <li class="item item-toggle">
+    <div class="list">
+
+        <div class="item item-toggle">
             Terminé
             <label class="toggle toggle-calm">
                 <input type="checkbox" ng-model="note.done">
@@ -21,23 +22,32 @@
                     <div class="handle"></div>
                 </div>
             </label>
-        </li>
-    </ul>
-
-    <div style="margin: 10px;">
-        <p>{{note.comment}}</p>
-    </div>
-
-    <div class="row">
-        <div class="col">
-            Importance :
         </div>
-        <div class="col" style="color: {{note.couleur}}">
-            {{note.importance}}
+
+        <div class="item item-divider"></div>
+
+        <div class="item">
+            <div style="margin: 10px;">
+                {{note.comment}}
+            </div>
         </div>
+
+        <div class="item">
+            <div class="row">
+                <div class="col">
+                    Importance :
+                </div>
+                <div class="col" style="color: {{note.couleur}}">
+                    {{note.importance}}
+                </div>
+            </div>
+        </div>
+        
+        <div ng-if="note.done">
+            
+        </div>
+
     </div>
-
-
 
 
 </ion-content>
