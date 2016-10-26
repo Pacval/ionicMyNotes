@@ -4,13 +4,13 @@
 </ion-header-bar>
 
 <ion-content>
-    <ion-list ng-repeat="note in notes.tabNotes">
+    <ion-list ng-repeat="note in notes">
+    {{note.done}}
         <ion-item href="#/note/{{note.id}}">
         	<i class="icon ion-flag" style="color: {{note.couleur}}; margin-right: 10px;"></i>
-            <h2 ng-style="{ 'textDecoration' : note.done ? 'line-through' : 'none',
-                          'color' : note.done ? 'grey' : 'black' }" style="display: inline;">{{note.titre}}</h2>
+            <h2 ng-style="{ 'textDecoration' : !note.done ? 'line-through' : 'none',
+                          'color' : !note.done ? 'grey' : 'black' }" style="display: inline;">{{note.titre}}</h2>
             <i class="icon ion-chevron-right" style="float: right;"></i>
         </ion-item>
-
     </ion-list>
 </ion-content>

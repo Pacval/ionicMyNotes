@@ -6,43 +6,10 @@
 //    couleur
 //    dateButoir    (can be null)
 //    done          (auto)
+//    dateDone      (auto)
 
 angular.module('app.services', [])
 
-.factory('TabNotes', function (Importances) {
-    var tabNotes = [];
-
-    var id = 1;
-
-    return {
-        all: function () {
-            return tabNotes;
-        },
-        add: function (titre, comment, importance, dateButoir) {
-            tabNotes.push({
-                id: id,
-                titre: titre,
-                comment: comment,
-                importance: importance,
-                couleur: Importances.getCouleur(importance),
-                dateButoir: dateButoir,
-                done: false
-            });
-            id = id + 1;
-        },
-        remove: function (note) {
-            tabNotes.splice(tabNotes.indexOf(note), 1);
-        },
-        get: function (noteId) {
-            for (var i = 0; i < tabNotes.length; i++) {
-                if (tabNotes[i].id === parseInt(noteId)) {
-                    return tabNotes[i];
-                }
-            }
-            return null;
-        }
-    };
-})
 .factory('Importances', function(){
     var importances = [
     {value: 'Faible', couleur: '#00ff00'}, //vert
@@ -68,5 +35,74 @@ angular.module('app.services', [])
             return null;
         }
     };
+
+})
+.factory('NoteDatabase', function($cordovaSQLite, $ionicPlatform){
+    var db, dbName = "myNotes.db"
+
+    function useWebSql() {
+        db = window.openDatabase(dbName, "1.0", "Note database", 200000)
+        console.info('Using webSql')
+    }
+
+    function useSqlLite() {
+        db = $cordovaSQLite.openDB({name: dbName})
+        console.info('Using SQLITE')
+    }
+
+    function initDatabase(){
+        $cordovaSQLite.execute(db, 'CREATE TABLE IF NOT EXISTS T_NOTE (id integer primary key, titre text, comment text, importance text, couleur text, dateButoir text, done text, dateDone text)')
+        .then(function(res){
+
+        }, onErrorQuery)
+    }
+
+    $ionicPlatform.ready(function () {
+        if(window.cordova){
+            useSqlLite()
+        } else {
+            useWebSql()
+        }
+        initDatabase()
+    })
+
+    function onErrorQuery(err){
+      console.error(err)
+    }
+
+
+    return {
+        createNote: function (note) {
+            return $cordovaSQLite.execute(db, 'INSERT INTO T_NOTE (titre, comment, importance, couleur, dateButoir, done, dateDone) VALUES(?, ?, ?, ?, ?, ?, ?)', [note.titre, note.comment, note.importance, note.couleur, note.dateButoir, "false", null])
+        },
+        updateNote: function(note){
+            return $cordovaSQLite.execute(db, 'UPDATE T_NOTE set titre = ?, comment = ?, importance = ?, couleur = ?, dateButoir = ?, done = ?, dateDone = ? where id = ?', [note.titre, note.comment, note.importance, note.couleur, note.dateButoir, note.done, note.dateDone])
+        },
+        getAll: function(callback){
+            $ionicPlatform.ready(function () {
+                $cordovaSQLite.execute(db, 'SELECT * FROM T_NOTE').then(function (results) {
+                    var data = []
+
+                    for (i = 0, max = results.rows.length; i < max; i++) {
+                        data.push(results.rows.item(i))
+                    }
+
+                    callback(data)
+                }, onErrorQuery)
+            })
+        },
+
+        deleteNote: function(id){
+            return $cordovaSQLite.execute(db, 'DELETE FROM T_NOTE where id = ?', [id])
+        },  
+
+        getById: function(id, callback){
+            $ionicPlatform.ready(function () {
+                $cordovaSQLite.execute(db, 'SELECT * FROM T_NOTE where id = ?', [id]).then(function (results) {
+                    callback(results.rows.item(0))
+                })
+            })
+        }
+    }
 
 });

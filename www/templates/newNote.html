@@ -31,17 +31,17 @@
             Plus d'options
         </div>
 
-        <!--        OPTION : délai      -->
+        <!--        OPTION : date butoir      -->
         <label class="item item-toggle">
             Ajouter une date butoir
             <label class="toggle toggle-calm">
-                <input type="checkbox" ng-model="form.delai">
+                <input type="checkbox" ng-model="form.hasDateButoir" ng-change="dateButoirTriggered()">
                 <div class="track">
                     <div class="handle"></div>
                 </div>
             </label>
         </label>
-        <label class="item item-input" ng-if="form.delai">
+        <label class="item item-input" ng-if="form.hasDateButoir">
             <span class="input-label">Date butoir</span>
             <input ng-model="form.dateButoir" type="date">
         </label>

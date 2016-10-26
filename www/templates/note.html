@@ -5,7 +5,6 @@
 </ion-header-bar>
 
 <ion-content>
-
     <div class="row">
         <div class="col">
             <h2 style="text-align: center;">{{note.titre}}</h2>
@@ -16,8 +15,12 @@
 
         <div class="item item-toggle">
             Terminé
+            <div ng-if="note.done" style="font-style: italic; font-size: 75%;">
+                {{note.dateDone}}
+            </div>
+
             <label class="toggle toggle-calm">
-                <input type="checkbox" ng-model="note.done">
+                <input type="checkbox" ng-model="note.done" ng-change="doneTriggered()">
                 <div class="track">
                     <div class="handle"></div>
                 </div>
@@ -27,24 +30,23 @@
         <div class="item item-divider"></div>
 
         <div class="item">
-            <div style="margin: 10px;">
-                {{note.comment}}
-            </div>
+            {{note.comment}}
         </div>
 
         <div class="item">
-            <div class="row">
-                <div class="col">
-                    Importance :
-                </div>
-                <div class="col" style="color: {{note.couleur}}">
-                    {{note.importance}}
-                </div>
+            Importance :
+
+            <div style="color: {{note.couleur}}; display: inline; margin-left: 100px;">
+                {{note.importance}}
             </div>
         </div>
         
-        <div ng-if="note.done">
-            
+        <div class="item" ng-if="note.dateButoir">
+            Date butoir :
+
+            <span style="font-style: italic; margin-left: 100px;">
+                {{note.dateButoir}}
+            </span>
         </div>
 
     </div>

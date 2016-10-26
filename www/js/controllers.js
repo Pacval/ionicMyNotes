@@ -1,20 +1,17 @@
 angular.module('app.controllers', [])
 
-.controller('allNotesCtrl', function ($scope, $state, TabNotes, Importances) {
-
-    if (typeof $scope.notes === 'undefined') {
-        $scope.notes = {
-            tabNotes: TabNotes.all()
-        };
-
-        TabNotes.add("note1", "comment 1", 'Normale', null);
-        TabNotes.add("note2", "comment 2", 'Faible', null);
-        TabNotes.add("note3", "comment 3", 'Forte', null);
-    }
+.controller('allNotesCtrl', function ($scope, NoteDatabase) {
+    //$scope.$on('$ionicView.enter', function(){
+        NoteDatabase.getAll(function(data){
+            $scope.notes = data;
+        });
+    //});
 
 })
-.controller('noteCtrl', function ($scope, $state, $stateParams, TabNotes, $ionicActionSheet, $ionicPopup) {
-    $scope.note = TabNotes.get($stateParams.noteId);
+.controller('noteCtrl', function ($scope, $state, $stateParams, $filter, $ionicActionSheet, $ionicPopup, NoteDatabase) {
+    NoteDatabase.getById($stateParams.noteId, function(item){
+        $scope.note = item;
+    });
 
     $scope.noteOptions = function (note) {
         var actionSheet = $ionicActionSheet.show({
@@ -26,6 +23,7 @@ angular.module('app.controllers', [])
             buttonClicked: function (index) {
                     if (index === 0) { //Bouton "Terminé"
                         note.done = !note.done;
+                    $scope.doneTriggered();
                     return true;
                 }
             },
@@ -39,7 +37,7 @@ angular.module('app.controllers', [])
                 })
                 .then(function (res) {
                     if (res) {
-                        TabNotes.remove(note);
+                        NoteDatabase.deleteNote($scope.note.id);
                         $state.go('allNotes');
                         return true;
                     }
@@ -49,10 +47,19 @@ angular.module('app.controllers', [])
 
             cancelText: 'Annuler',
             cancel: function () {}
-        })
+        });
     };
+
+    $scope.doneTriggered = function(){
+        if ($scope.note.done){
+            $scope.note.dateDone = $filter('date')(new Date(), 'dd/MM HH:mm:ss');
+        } else {
+            $scope.note.dateDone = null;
+        }
+    };
+
 })
-.controller('newNoteCtrl', function ($scope, TabNotes, $ionicPopup, $state, Importances) {
+.controller('newNoteCtrl', function ($scope, $ionicPopup, $state, Importances, NoteDatabase) {
 
     $scope.form = {};
     $scope.enums = {};
@@ -77,10 +84,9 @@ angular.module('app.controllers', [])
     }
 
     $scope.createNote = function () {
-        if ($scope.form.titre !== "" && $scope.form.comment !== "" && $scope.form.importance !== "") {
-
-            TabNotes.add($scope.form.titre, $scope.form.comment, $scope.form.importance);
-
+        if ($scope.form.titre !== "" && $scope.form.importance !== "") {
+            $scope.form.couleur = Importances.getCouleur($scope.form.importance);
+            NoteDatabase.createNote($scope.form);
             $state.go('allNotes');
 
         } else {
@@ -88,6 +94,12 @@ angular.module('app.controllers', [])
                 title: 'Erreur',
                 template: 'Veuillez remplir tous les champs'
             });
+        }
+    };
+
+    $scope.dateButoirTriggered = function(){
+        if (!$scope.form.hasDateButoir){
+            $scope.form.dateButoir = null;
         }
     };
 });
