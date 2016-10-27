@@ -1,5 +1,5 @@
 <ion-header-bar class="bar-calm">
-    <a class="button icon ion-chevron-left" href="/#/allNotes">Retour</a>
+    <a class="button icon ion-chevron-left" ng-click="saveAndBack()">Retour</a>
     <h1 class="title">Détails</h1>
     <button class="button icon ion-gear-a" ng-click="noteOptions(note)"></button>
 </ion-header-bar>
@@ -12,7 +12,6 @@
     </div>
 
     <div class="list">
-
         <div class="item item-toggle">
             Terminé
             <div ng-if="note.done" style="font-style: italic; font-size: 75%;">

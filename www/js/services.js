@@ -76,7 +76,7 @@ angular.module('app.services', [])
             return $cordovaSQLite.execute(db, 'INSERT INTO T_NOTE (titre, comment, importance, couleur, dateButoir, done, dateDone) VALUES(?, ?, ?, ?, ?, ?, ?)', [note.titre, note.comment, note.importance, note.couleur, note.dateButoir, "false", null])
         },
         updateNote: function(note){
-            return $cordovaSQLite.execute(db, 'UPDATE T_NOTE set titre = ?, comment = ?, importance = ?, couleur = ?, dateButoir = ?, done = ?, dateDone = ? where id = ?', [note.titre, note.comment, note.importance, note.couleur, note.dateButoir, note.done, note.dateDone])
+            return $cordovaSQLite.execute(db, 'UPDATE T_NOTE set titre = ?, comment = ?, importance = ?, couleur = ?, dateButoir = ?, done = ?, dateDone = ? where id = ?', [note.titre, note.comment, note.importance, note.couleur, note.dateButoir, note.done, note.dateDone, note.id])
         },
         getAll: function(callback){
             $ionicPlatform.ready(function () {

@@ -11,6 +11,7 @@ angular.module('app.controllers', [])
 .controller('noteCtrl', function ($scope, $state, $stateParams, $filter, $ionicActionSheet, $ionicPopup, NoteDatabase) {
     NoteDatabase.getById($stateParams.noteId, function(item){
         $scope.note = item;
+        $scope.note.done = ($scope.note.done == 'true');
     });
 
     $scope.noteOptions = function (note) {
@@ -58,6 +59,10 @@ angular.module('app.controllers', [])
         }
     };
 
+    $scope.saveAndBack = function(){
+        NoteDatabase.updateNote($scope.note).then($state.go('allNotes'));
+    }
+
 })
 .controller('newNoteCtrl', function ($scope, $ionicPopup, $state, Importances, NoteDatabase) {
 
@@ -99,7 +104,7 @@ angular.module('app.controllers', [])
 
     $scope.dateButoirTriggered = function(){
         if (!$scope.form.hasDateButoir){
-            $scope.form.dateButoir = null;
+            $scope.form.dateButoir = "";
         }
     };
 });
